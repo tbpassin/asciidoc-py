@@ -1,5 +1,11 @@
-from . import asciidoc
-from .exceptions import AsciiDocError
+#from . import asciidoc
+import sys
+print('\n'.join(sys.path)); print()
+try:
+    from asciidoc import asciidoc as adoc
+    from asciidoc.exceptions import AsciiDocError
+except Exception as e:
+    print('====', e, flush=True)
 
 
 class Options(object):
@@ -35,8 +41,9 @@ class AsciiDocAPI(object):
     def execute(self, infile, outfile=None, backend=None):
         """
         Compile infile to outfile using backend format.
-        infile can outfile can be file path strings or file like objects.
+        infile and outfile can be file path strings or file like objects.
         """
+        global asciidoc
         self.messages = []
         opts = Options(self.options.values)
         if outfile is not None:
@@ -54,9 +61,12 @@ class AsciiDocAPI(object):
         args = [infile]
         try:
             try:
-                asciidoc.execute(self.cmd, opts.values, args)
+                #asciidoc.execute(self.cmd, opts.values, args)
+                adoc.execute('', opts.values, args)
+            except Exception as e:
+                print(f'---- {e}',flush=True)
             finally:
-                self.messages = self.asciidoc.messages[:]
+                self.messages = adoc.messages[:]
         except SystemExit as e:
             if e.code:
                 raise AsciiDocError(self.messages[-1])
