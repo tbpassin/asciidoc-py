@@ -1,11 +1,5 @@
-#from . import asciidoc
-import sys
-print('\n'.join(sys.path)); print()
-try:
-    from asciidoc import asciidoc as adoc
-    from asciidoc.exceptions import AsciiDocError
-except Exception as e:
-    print('====', e, flush=True)
+from asciidoc import asciidoc as adoc
+from asciidoc.exceptions import AsciiDocError
 
 
 class Options(object):
@@ -31,7 +25,7 @@ class AsciiDocAPI(object):
     """
     def __init__(self, asciidoc_py=None):
         """
-        Locate and import asciidoc.py.
+        # (not used) Locate and import asciidoc.py.
         Initialize instance attributes.
         """
         self.options = Options()
@@ -61,7 +55,6 @@ class AsciiDocAPI(object):
         args = [infile]
         try:
             try:
-                #asciidoc.execute(self.cmd, opts.values, args)
                 adoc.execute('', opts.values, args)
             except Exception as e:
                 print(f'---- {e}',flush=True)
